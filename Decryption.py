@@ -6,5 +6,6 @@ def decryptHenonManipulation(filename):
     resImage = hD.decryptHenonImage(filename)
     return resImage
 
-absImg = decryptHenonManipulation("HenonTransformedImage.bmp")
+absImg = decryptHenonManipulation("HenonIkedaTransformedImage.bmp")
 print(absImg)
+

@@ -1,5 +1,5 @@
 from PIL import Image
-
+import math
 def getImageMatrix(image):
     im = Image.open(image)  
     pix = im.load()
@@ -83,5 +83,111 @@ def genTransformationMatrix(m):
             print(len(byteArray),byteArray)
             byteArray = []
             
+    return TImageMatrix
+
+def genTransformationMatrix2(m):
+    #Replace Hardcoded Pixel Values
+    #Serves as the initial Parameter and also the symmetric secret key
+    x = 0.1
+    y = 0.1
+    u=0.9
+    sequenceSize = m * m * 8 #Total Number of bitSequence produced
+    bitSequence = []    #Each bitSequence contains 8 bits
+    byteArray = []      #Each byteArray contains m( i.e 512 in this case) bitSequence
+    TImageMatrix = []   #Each TImageMatrix contains m*n byteArray( i.e 512 byteArray in this case)
+    for i in range(sequenceSize):
+        #Ikeda Map formula
+        tn = 0.4 - 6/(1+x**2 +y**2)
+        xN = 1 + u*(x*math.cos(tn) - y*math.sin(tn))
+        yN = u*(x*math.sin(tn) + y*math.cos(tn))
+
+        # New x = xN and y = yN
+        x = xN
+        y = yN
+        # Each Value of xN is converted into 0 or 1 based on the threshold value
+        if xN <= 0.3992:
+            bit = 0
+        else:
+            bit = 1
+        #bits are inserted into bitSequence
+        try:
+            bitSequence.append(bit)
+        except:
+            bitSequence = [bit]
+        #Each bitSequence is converted into a decimal number
+        #This decimal number is inserted into byteArray
+        if i % 8 == 7:
+            decimal = dec(bitSequence)
+            try:
+                byteArray.append(decimal)
+            except:
+                byteArray = [decimal]
+            print(bitSequence,decimal)
+            bitSequence = []
+        #ByteArray is inserted into TImageMatrix
+        byteArraySize = m*8
+        if i % byteArraySize == byteArraySize-1:
+            print(byteArray)
+            try:
+                TImageMatrix.append(byteArray)
+            except:
+                TImageMatrix = [byteArray]
+            print(len(byteArray),byteArray)
+            byteArray = []
+    return TImageMatrix
+
+def genTransformationMatrix3(m):
+    #Replace Hardcoded Pixel Values
+    #Serves as the initial Parameter and also the symmetric secret key
+    x = 0.1
+    y = 0.1
+    u= 0.9
+    sequenceSize = m * m * 8 #Total Number of bitSequence produced
+    bitSequence = []    #Each bitSequence contains 8 bits
+    byteArray = []      #Each byteArray contains m( i.e 512 in this case) bitSequence
+    TImageMatrix = []   #Each TImageMatrix contains m*n byteArray( i.e 512 byteArray in this case)
+    for i in range(sequenceSize):
+        #Henon-Ikeda Map formula
+        xn = y + 1 - 1.4 * x**2
+        yn = 0.3 * x
+
+        
+        tn = 0.4 - 6/(1+xn**2 +yn**2)
+        xN = 1 + u*(xn*math.cos(tn) - yn*math.sin(tn))
+        yN = u*(xn*math.sin(tn) + yn*math.cos(tn))
+
+        # New x = xN and y = yN
+        x = xN
+        y = yN
+        # Each Value of xN is converted into 0 or 1 based on the threshold value
+        if xN <= 0.3992:
+            bit = 0
+        else:
+            bit = 1
+        #bits are inserted into bitSequence
+        try:
+            bitSequence.append(bit)
+        except:
+            bitSequence = [bit]
+        #Each bitSequence is converted into a decimal number
+        #This decimal number is inserted into byteArray
+        if i % 8 == 7:
+            decimal = dec(bitSequence)
+            try:
+                byteArray.append(decimal)
+            except:
+                byteArray = [decimal]
+            print(bitSequence,decimal)
+            bitSequence = []
+        #ByteArray is inserted into TImageMatrix
+        byteArraySize = m*8
+        if i % byteArraySize == byteArraySize-1:
+            print(byteArray)
+            try:
+                TImageMatrix.append(byteArray)
+            except:
+                TImageMatrix = [byteArray]
+            print(len(byteArray),byteArray)
+            byteArray = []
     return TImageMatrix
 

@@ -10,7 +10,7 @@ import os
 
 def decryptHenonImage(imageName):
     imageMatrix = ghm.getImageMatrix(imageName)
-    transformationMatrix = ghm.genTransformationMatrix(len(imageMatrix))
+    transformationMatrix = ghm.genTransformationMatrix3(len(imageMatrix))
 
     henonDecryptedImage = []
     for i in range(len(imageMatrix)):
@@ -34,6 +34,6 @@ def decryptHenonImage(imageName):
     for x in range(width):
         for y in range(height):
             pix[x, y] = henonDecryptedImage[x][y]
-    im.save("HenonDecryptedImage.bmp", "BMP")
+    im.save("IkedaHenonDecryptedImage.bmp", "BMP")
     #return henonDecryptedImage
-    return os.path.abspath("HenonDecryptedImage.bmp")
+    return os.path.abspath("IkedaHenonDecryptedImage.bmp")
