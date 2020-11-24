@@ -34,6 +34,6 @@ def decryptHenonImage(imageName):
     for x in range(width):
         for y in range(height):
             pix[x, y] = henonDecryptedImage[x][y]
-    im.save("IkedaHenonDecryptedImage.bmp", "BMP")
+    im.save("HenonIkedaDecryptedImage.bmp", "BMP")
     #return henonDecryptedImage
-    return os.path.abspath("IkedaHenonDecryptedImage.bmp")
+    return os.path.abspath("HenonIkedaDecryptedImage.bmp")
